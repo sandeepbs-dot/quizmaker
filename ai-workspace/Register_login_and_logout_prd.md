@@ -613,7 +613,7 @@ describe("vitest harness", () => {
 
 ---
 
-### Phase 3: Validation, Session, and API Endpoints — PLANNED
+### Phase 3: Validation, Session, and API Endpoints — COMPLETED
 
 **Objective**: Expose register, login, logout, and me endpoints — each endpoint tested before and after implementation.
 
@@ -926,15 +926,15 @@ Each criterion maps to one or more Vitest tests. Mark complete only when the tes
 
 ### Phase 3 — API Endpoints
 
-- [ ] `src/lib/validation/auth.test.ts` — all tests pass
-- [ ] `src/lib/session.test.ts` — all tests pass
-- [ ] All `src/app/api/auth/*/route.test.ts` — all tests pass
-- [ ] `POST /api/auth/register` creates a user, establishes a session, and returns 201
-- [ ] `POST /api/auth/register` rejects duplicate email (409) and duplicate username (409)
-- [ ] `POST /api/auth/register` validates all fields and returns 400 on invalid input
-- [ ] `POST /api/auth/login` authenticates valid credentials and returns 200 with session
-- [ ] `POST /api/auth/login` returns 401 with generic message for invalid credentials
-- [ ] `POST /api/auth/logout` clears the session and returns 200
+- [x] `src/lib/validation/auth.test.ts` — all tests pass
+- [x] `src/lib/session.test.ts` — all tests pass
+- [x] All `src/app/api/auth/*/route.test.ts` — all tests pass
+- [x] `POST /api/auth/register` creates a user, establishes a session, and returns 201
+- [x] `POST /api/auth/register` rejects duplicate email (409) and duplicate username (409)
+- [x] `POST /api/auth/register` validates all fields and returns 400 on invalid input
+- [x] `POST /api/auth/login` authenticates valid credentials and returns 200 with session
+- [x] `POST /api/auth/login` returns 401 with generic message for invalid credentials
+- [x] `POST /api/auth/logout` clears the session and returns 200
 
 ### Phase 4 — UI
 
@@ -1101,9 +1101,9 @@ When working with this PRD:
 
 **Last Updated**: August 28, 2026
 
-**Current Phase**: Phase 2 — User Service and Password (complete; awaiting review)
+**Current Phase**: Phase 3 — Validation, Session, and API Endpoints (complete; awaiting review)
 
-**Status**: COMPLETED — ready for review before Phase 3
+**Status**: COMPLETED — ready for review before Phase 4
 
 **TDD Workflow**: RED → GREEN → Refactor per phase; `npm test` is the phase exit gate
 
@@ -1111,5 +1111,5 @@ When working with this PRD:
 
 **Next Steps** (after your approval):
 
-1. Commit and push Phase 2 to `feature/auth-register-login-logout` (at your direction)
-2. Phase 3: Write validation, session, and API route tests (RED), then implement (GREEN)
+1. Commit and push Phase 3 to `feature/auth-register-login-logout` (at your direction)
+2. Phase 4: Write UI component tests (RED), then build register, login, and MCQs pages (GREEN)
