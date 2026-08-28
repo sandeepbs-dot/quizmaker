@@ -550,7 +550,7 @@ describe("vitest harness", () => {
 
 ---
 
-### Phase 2: User Service and Password — PLANNED
+### Phase 2: User Service and Password — COMPLETED
 
 **Objective**: Implement password helpers and user service CRUD — all behavior driven by unit tests.
 
@@ -916,13 +916,13 @@ Each criterion maps to one or more Vitest tests. Mark complete only when the tes
 
 ### Phase 2 — User Service
 
-- [ ] `src/lib/password.test.ts` — all tests pass
-- [ ] `src/lib/user-service.test.ts` — all tests pass
-- [ ] `UserService.createUser()` inserts a user and returns the created record
-- [ ] `UserService.getUserByEmail()` and `getUserByUsername()` retrieve users for login
-- [ ] `UserService.updateUser()` updates allowed fields and sets `updated_at`
-- [ ] `UserService.deleteUser()` removes a user by ID
-- [ ] Passwords are hashed with bcrypt before storage; plain text is never persisted
+- [x] `src/lib/password.test.ts` — all tests pass
+- [x] `src/lib/user-service.test.ts` — all tests pass
+- [x] `UserService.createUser()` inserts a user and returns the created record
+- [x] `UserService.getUserByEmail()` and `getUserByUsername()` retrieve users for login
+- [x] `UserService.updateUser()` updates allowed fields and sets `updated_at`
+- [x] `UserService.deleteUser()` removes a user by ID
+- [x] Passwords are hashed with bcrypt before storage; plain text is never persisted
 
 ### Phase 3 — API Endpoints
 
@@ -1101,13 +1101,15 @@ When working with this PRD:
 
 **Last Updated**: August 28, 2026
 
-**Current Phase**: Phase 1 — Database and Migration (complete; awaiting review)
+**Current Phase**: Phase 2 — User Service and Password (complete; awaiting review)
 
-**Status**: COMPLETED — ready for review before Phase 2
+**Status**: COMPLETED — ready for review before Phase 3
 
 **TDD Workflow**: RED → GREEN → Refactor per phase; `npm test` is the phase exit gate
 
+**Session constraints**: Do not create migrations or deploy to production — user handles those.
+
 **Next Steps** (after your approval):
 
-1. Create feature branch and commit Phase 0 + Phase 1 (at your direction)
-2. Phase 2: Write user-service and password tests (RED), then implement (GREEN)
+1. Commit and push Phase 2 to `feature/auth-register-login-logout` (at your direction)
+2. Phase 3: Write validation, session, and API route tests (RED), then implement (GREEN)
