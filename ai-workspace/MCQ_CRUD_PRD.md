@@ -908,6 +908,113 @@ Create route tests (mock mcq-service, session):
 
 ---
 
+### Phase 5: Route Protection Refactor and Feature Completion — COMPLETED
+
+**Objective:** DRY repeated auth checks across MCQ pages, add shared layout/metadata and not-found handling, and mark the MCQ CRUD feature complete.
+
+**Tests First (RED):**
+
+1. `src/lib/auth-guard.test.ts` — extend with:
+
+| Test case | Expected behavior |
+|-----------|-------------------|
+| `getRedirectPathIfUnauthenticated returns /login when user id is missing` | Returns `/login` for `null` |
+| `getRedirectPathIfUnauthenticated returns null when user id is present` | Returns `null` for valid id |
+
+2. Run `npm test` — new tests fail until helpers exist (RED)
+
+**Implementation (GREEN):**
+
+1. Add `getRedirectPathIfUnauthenticated(userId)` and `requireAuthenticatedUserIdForPage()` to `src/lib/auth-guard.ts`
+2. Refactor all MCQ pages to use `requireAuthenticatedUserIdForPage()` instead of duplicated cookie checks
+3. Add `src/app/mcqs/layout.tsx` with MCQ section metadata
+4. Add `src/app/mcqs/[id]/not-found.tsx` for missing MCQ on edit/preview routes
+5. Run `npm test` — full suite green (GREEN)
+
+**Phase Exit Criteria:**
+
+- [x] All Phase 5 auth-guard tests pass
+- [x] Full `npm test` suite passes (127 tests)
+- [x] MCQ pages use shared `requireAuthenticatedUserIdForPage()` helper
+- [x] Missing MCQ on edit/preview shows not-found UI
+- [ ] Manual E2E checklist verified (see Manual Verification)
+
+**Deliverables:**
+
+- `src/lib/auth-guard.ts` — `getRedirectPathIfUnauthenticated`, `requireAuthenticatedUserIdForPage`
+- `src/lib/auth-guard.test.ts` — two new tests
+- `src/app/mcqs/layout.tsx`
+- `src/app/mcqs/[id]/not-found.tsx`
+- Refactored `src/app/mcqs/**/page.tsx` files
+
+---
+
+### Phase 6: Page Integration Tests — COMPLETED
+
+**Objective:** Add automated page-level tests for MCQ server routes (auth, data loading, not-found) and the not-found UI component, closing the test gap between API/component layers and page wiring.
+
+**Tests First (RED):**
+
+1. `src/app/mcqs/page.test.tsx`:
+
+| Test case | Expected behavior |
+|-----------|-------------------|
+| `redirects to login when user record is missing` | `redirect('/login')` after auth |
+| `renders McqList with user and mcqs when authenticated` | List receives user + mcqs |
+
+2. `src/app/mcqs/new/page.test.tsx`:
+
+| Test case | Expected behavior |
+|-----------|-------------------|
+| `requires authentication before rendering` | `requireAuthenticatedUserIdForPage` called |
+| `renders create form when authenticated` | `McqForm` mode `create` |
+
+3. `src/app/mcqs/[id]/edit/page.test.tsx`:
+
+| Test case | Expected behavior |
+|-----------|-------------------|
+| `calls notFound when mcq is missing` | `notFound()` invoked |
+| `renders edit form with initial values when mcq exists` | `McqForm` mode `edit` with data |
+
+4. `src/app/mcqs/[id]/preview/page.test.tsx`:
+
+| Test case | Expected behavior |
+|-----------|-------------------|
+| `calls notFound when mcq is missing` | `notFound()` invoked |
+| `renders preview when mcq exists` | `McqPreview` receives mcq |
+
+5. `src/app/mcqs/[id]/not-found.test.tsx`:
+
+| Test case | Expected behavior |
+|-----------|-------------------|
+| `renders not found message and back link` | Copy + link to `/mcqs` |
+
+6. Run `npm test` — Phase 6 tests fail until implemented (RED)
+
+**Implementation (GREEN):**
+
+1. Add five page/component test files under `src/app/mcqs/`
+2. Mock `next/navigation`, `auth-guard`, `db`, and service layers per test file
+3. Run `npm test` — full suite green (GREEN)
+
+**Phase Exit Criteria:**
+
+- [x] All Phase 6 page integration tests pass
+- [x] Full `npm test` suite passes (136 tests)
+- [x] MCQ list, new, edit, preview pages covered for auth and data paths
+- [x] Not-found UI component tested
+- [ ] Manual browser smoke test via `npm run preview` (recommended before merge)
+
+**Deliverables:**
+
+- `src/app/mcqs/page.test.tsx`
+- `src/app/mcqs/new/page.test.tsx`
+- `src/app/mcqs/[id]/edit/page.test.tsx`
+- `src/app/mcqs/[id]/preview/page.test.tsx`
+- `src/app/mcqs/[id]/not-found.test.tsx`
+
+---
+
 ## Technical Implementation Details
 
 ### Key Files (planned)
@@ -924,6 +1031,10 @@ Create route tests (mock mcq-service, session):
 | `src/components/mcq-form.tsx` | Create/edit form |
 | `src/components/mcq-preview.tsx` | Preview + attempt |
 | `src/app/mcqs/page.tsx` | Protected list page (replaces stub) |
+| `src/lib/auth-guard.ts` | `requireAuthenticatedUserIdForPage()` for MCQ pages |
+| `src/app/mcqs/layout.tsx` | MCQ section metadata |
+| `src/app/mcqs/[id]/not-found.tsx` | Friendly UI when MCQ id is invalid |
+| `src/app/mcqs/**/*.test.tsx` | Page integration tests for MCQ routes |
 
 ### Architecture Flow
 
@@ -996,6 +1107,23 @@ Create route tests (mock mcq-service, session):
 - [x] Form defaults to 2 choices; supports add up to 6 and remove down to 2
 - [x] Exactly one correct answer required before Save
 - [x] Unauthenticated access to MCQ pages redirects to `/login`
+
+### Phase 5 — Route protection and completion
+
+- [x] `getRedirectPathIfUnauthenticated` tests pass in `auth-guard.test.ts`
+- [x] **Full suite**: `npm test` passes with zero failures (127 tests)
+- [x] All MCQ pages use `requireAuthenticatedUserIdForPage()`
+- [x] Edit/preview routes call `notFound()` when MCQ is missing
+- [x] MCQ section has shared layout metadata
+
+### Phase 6 — Page integration tests
+
+- [x] `src/app/mcqs/page.test.tsx` — auth redirect and list rendering
+- [x] `src/app/mcqs/new/page.test.tsx` — create page auth + form
+- [x] `src/app/mcqs/[id]/edit/page.test.tsx` — not-found and edit form
+- [x] `src/app/mcqs/[id]/preview/page.test.tsx` — not-found and preview
+- [x] `src/app/mcqs/[id]/not-found.test.tsx` — not-found UI
+- [x] **Full suite**: `npm test` passes with zero failures (136 tests)
 
 ### Manual Verification
 
@@ -1115,8 +1243,8 @@ When working with this PRD:
 ## Current Status
 
 **Last Updated:** September 10, 2026  
-**Current Phase:** Phase 4 — UI (List, Form, Preview)  
-**Status:** COMPLETED (pending manual E2E verification)  
-**Next Steps:** Manual smoke test via `npm run preview`; commit/push at product owner direction
+**Current Phase:** Phase 6 — Page Integration Tests  
+**Status:** COMPLETED (pending manual browser smoke test)  
+**Next Steps:** Optional `npm run preview` smoke test; commit/push Phases 5–6 at product owner direction
 
-**Baseline:** 125/125 tests passing. Phase 4 adds 16 UI component tests; `McqsStub` replaced with full MCQ management UI.
+**Baseline:** 136/136 tests passing. Phase 6 adds nine page integration tests covering MCQ route wiring, auth redirects, not-found handling, and not-found UI.

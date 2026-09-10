@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import {
 	getSessionSecret,
@@ -37,4 +38,21 @@ export function getAuthenticatedUserIdFromRequest(
 	secret = getSessionSecret(),
 ): string | null {
 	return getSessionUserId(request, secret);
+}
+
+export function getRedirectPathIfUnauthenticated(
+	userId: string | null,
+): string | null {
+	return userId ? null : getLoginRedirectPath();
+}
+
+export async function requireAuthenticatedUserIdForPage(): Promise<string> {
+	const userId = await getAuthenticatedUserIdFromCookies();
+	const redirectPath = getRedirectPathIfUnauthenticated(userId);
+
+	if (redirectPath) {
+		redirect(redirectPath);
+	}
+
+	return userId!;
 }

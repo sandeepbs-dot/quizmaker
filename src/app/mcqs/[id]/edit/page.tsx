@@ -1,9 +1,6 @@
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import { McqForm } from "@/components/mcq-form";
-import {
-	getAuthenticatedUserIdFromCookies,
-	getLoginRedirectPath,
-} from "@/lib/auth-guard";
+import { requireAuthenticatedUserIdForPage } from "@/lib/auth-guard";
 import { getDb } from "@/lib/db";
 import { getMcqById } from "@/lib/mcq-service";
 
@@ -12,11 +9,7 @@ type EditMcqPageProps = {
 };
 
 export default async function EditMcqPage({ params }: EditMcqPageProps) {
-	const userId = await getAuthenticatedUserIdFromCookies();
-
-	if (!userId) {
-		redirect(getLoginRedirectPath());
-	}
+	await requireAuthenticatedUserIdForPage();
 
 	const { id } = await params;
 	const db = await getDb();

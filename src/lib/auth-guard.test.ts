@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { createSessionCookie, SESSION_COOKIE_NAME } from "@/lib/session";
 import {
 	getHomeRedirectPath,
+	getRedirectPathIfUnauthenticated,
 	isAuthenticatedRequest,
 } from "@/lib/auth-guard";
 
@@ -33,5 +34,15 @@ describe("getHomeRedirectPath", () => {
 
 	it("returns /mcqs when user is authenticated", () => {
 		expect(getHomeRedirectPath(true)).toBe("/mcqs");
+	});
+});
+
+describe("getRedirectPathIfUnauthenticated", () => {
+	it("returns /login when user id is missing", () => {
+		expect(getRedirectPathIfUnauthenticated(null)).toBe("/login");
+	});
+
+	it("returns null when user id is present", () => {
+		expect(getRedirectPathIfUnauthenticated("user-123")).toBeNull();
 	});
 });
