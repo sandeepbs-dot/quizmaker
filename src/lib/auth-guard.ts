@@ -31,3 +31,10 @@ export async function getAuthenticatedUserIdFromCookies(): Promise<string | null
 
 	return verifySessionToken(token, getSessionSecret());
 }
+
+export function getAuthenticatedUserIdFromRequest(
+	request: Request,
+	secret = getSessionSecret(),
+): string | null {
+	return getSessionUserId(request, secret);
+}

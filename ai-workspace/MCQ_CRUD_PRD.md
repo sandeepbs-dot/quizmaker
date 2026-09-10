@@ -723,7 +723,7 @@ Each phase lists **Tests First (RED)** before **Implementation (GREEN)**.
 
 ---
 
-### Phase 2: MCQ Service and Validation — PLANNED
+### Phase 2: MCQ Service and Validation — COMPLETED
 
 **Objective:** Implement validation and MCQ service CRUD + attempts — behavior driven by unit tests.
 
@@ -773,8 +773,8 @@ Each phase lists **Tests First (RED)** before **Implementation (GREEN)**.
 
 **Phase Exit Criteria:**
 
-- [ ] All Phase 2 Vitest tests pass
-- [ ] Service enforces 2–6 choices and exactly one correct answer
+- [x] All Phase 2 Vitest tests pass
+- [x] Service enforces 2–6 choices and exactly one correct answer
 
 **Deliverables:**
 
@@ -784,7 +784,7 @@ Each phase lists **Tests First (RED)** before **Implementation (GREEN)**.
 
 ---
 
-### Phase 3: API Endpoints — PLANNED
+### Phase 3: API Endpoints — COMPLETED
 
 **Objective:** Expose authenticated MCQ and attempt endpoints — each tested before and after implementation.
 
@@ -833,8 +833,8 @@ Create route tests (mock mcq-service, session):
 
 **Phase Exit Criteria:**
 
-- [ ] All Phase 3 API route tests pass
-- [ ] All endpoints return 401 without session
+- [x] All Phase 3 API route tests pass
+- [x] All endpoints return 401 without session
 
 **Deliverables:**
 
@@ -970,18 +970,18 @@ Create route tests (mock mcq-service, session):
 
 ### Phase 2 — Service
 
-- [ ] `src/lib/validation/mcq.test.ts` — all tests pass
-- [ ] `src/lib/mcq-service.test.ts` — all tests pass
-- [ ] `createMcq` persists name, question, `created_by_user_id`, and 2–6 choices with one correct
-- [ ] `updateMcq` does not change `created_by_user_id`
-- [ ] `updateMcq` replaces choices atomically
-- [ ] `createAttempt` records user, choice, and correctness
+- [x] `src/lib/validation/mcq.test.ts` — all tests pass
+- [x] `src/lib/mcq-service.test.ts` — all tests pass
+- [x] `createMcq` persists name, question, `created_by_user_id`, and 2–6 choices with one correct
+- [x] `updateMcq` does not change `created_by_user_id`
+- [x] `updateMcq` replaces choices atomically
+- [x] `createAttempt` records user, choice, and correctness
 
 ### Phase 3 — API
 
-- [ ] All `src/app/api/mcqs/**/route.test.ts` — all tests pass
-- [ ] Unauthenticated access to all MCQ endpoints returns 401
-- [ ] CRUD endpoints return correct status codes (201, 200, 404, 400)
+- [x] All `src/app/api/mcqs/**/route.test.ts` — all tests pass
+- [x] Unauthenticated access to all MCQ endpoints returns 401
+- [x] CRUD endpoints return correct status codes (201, 200, 404, 400)
 
 ### Phase 4 — UI
 
@@ -1115,8 +1115,8 @@ When working with this PRD:
 ## Current Status
 
 **Last Updated:** September 10, 2026  
-**Current Phase:** Phase 2 — MCQ Service and Validation  
+**Current Phase:** Phase 4 — UI (List, Form, Preview)  
 **Status:** PLANNED  
-**Next Steps:** Write `src/lib/validation/mcq.test.ts` and `src/lib/mcq-service.test.ts` (RED)
+**Next Steps:** Write component tests for `mcq-list`, `mcq-form`, `mcq-preview` (RED)
 
-**Baseline:** Auth feature complete (64 tests); Phase 1 adds 9 migration tests (73 total). Local D1 migration `0002_create_mcq_tables.sql` applied.
+**Baseline:** 111/111 tests passing. Phase 3 adds 15 API route tests under `/api/mcqs`.
