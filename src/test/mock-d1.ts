@@ -52,6 +52,19 @@ export class MockD1Database {
 		return { count: 0, duration: 0 };
 	}
 
+	async batch(
+		statements: MockPreparedStatement[],
+	): Promise<Array<{ success: boolean }>> {
+		const results: Array<{ success: boolean }> = [];
+
+		for (const statement of statements) {
+			await statement.run();
+			results.push({ success: true });
+		}
+
+		return results;
+	}
+
 	getSqliteDatabase(): Database.Database {
 		return this.db;
 	}
@@ -68,6 +81,24 @@ export function createMockD1WithUsersSchema(): MockD1Database {
 		"utf-8",
 	);
 	db.exec(migrationSql);
+	return new MockD1Database(db);
+}
+
+export function createMockD1WithMcqSchema(): MockD1Database {
+	const db = createInMemoryDatabase();
+	db.pragma("foreign_keys = ON");
+
+	const usersMigrationSql = readFileSync(
+		join(process.cwd(), "migrations", "0001_create_users.sql"),
+		"utf-8",
+	);
+	const mcqMigrationSql = readFileSync(
+		join(process.cwd(), "migrations", "0002_create_mcq_tables.sql"),
+		"utf-8",
+	);
+
+	db.exec(usersMigrationSql);
+	db.exec(mcqMigrationSql);
 	return new MockD1Database(db);
 }
 
