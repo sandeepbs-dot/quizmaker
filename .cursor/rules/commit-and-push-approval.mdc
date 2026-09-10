@@ -1,0 +1,34 @@
+---
+description: Require explicit user approval before git commit or push
+alwaysApply: true
+---
+
+# Commit and Push Approval
+
+Do **not** create git commits or push to the remote unless the user has explicitly asked you to in the current conversation.
+
+## Required workflow
+
+1. Finish the implementation phase and run tests.
+2. Stop and summarize what changed; tell the user the work is ready for review.
+3. Wait for explicit approval such as "commit and push", "commit this", or "push to the feature branch".
+4. Only then stage, commit, and push to the **current** feature branch.
+
+## Commit behavior
+
+- Prefer one commit per completed implementation phase when the user approves multiple phases together.
+- Stage only files related to the approved work; do not include unrelated local changes.
+- Never force-push, amend pushed commits, or push to `main`/`master` unless the user explicitly requests it.
+- Never update git config.
+
+## Push behavior
+
+- Push to the branch the user is already on (e.g. `feature/mcq_crud_branch`).
+- Use `git push -u origin HEAD` when the branch has no upstream yet.
+- Report the commit hash(es) and branch name after a successful push.
+
+## Out of scope without explicit request
+
+- Creating commits proactively at the end of a phase
+- Pushing without a commit request
+- Opening pull requests (unless separately requested)
