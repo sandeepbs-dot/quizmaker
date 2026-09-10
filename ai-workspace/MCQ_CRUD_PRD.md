@@ -843,7 +843,7 @@ Create route tests (mock mcq-service, session):
 
 ---
 
-### Phase 4: UI — List, Form, Preview — PLANNED
+### Phase 4: UI — List, Form, Preview — COMPLETED
 
 **Objective:** Replace MCQs stub with full management UI — component tests before wiring.
 
@@ -894,8 +894,8 @@ Create route tests (mock mcq-service, session):
 
 **Phase Exit Criteria:**
 
-- [ ] All Phase 4 component tests pass
-- [ ] Full `npm test` suite passes
+- [x] All Phase 4 component tests pass
+- [x] Full `npm test` suite passes
 - [ ] List, create, edit, preview, delete work end-to-end manually
 
 **Deliverables:**
@@ -985,17 +985,17 @@ Create route tests (mock mcq-service, session):
 
 ### Phase 4 — UI
 
-- [ ] All `src/components/mcq-*.test.tsx` — all tests pass
-- [ ] **Full suite**: `npm test` passes with zero failures
-- [ ] `/mcqs` shows table of questions with name, question, and actions menu
-- [ ] Create button opens `/mcqs/new`; Save creates question and returns to list
-- [ ] Edit action opens `/mcqs/[id]/edit`; Save updates and returns to list
-- [ ] Cancel on form returns to `/mcqs` without saving
-- [ ] Preview action opens `/mcqs/[id]/preview`; submit records attempt
-- [ ] Delete action confirms then removes question from list
-- [ ] Form defaults to 2 choices; supports add up to 6 and remove down to 2
-- [ ] Exactly one correct answer required before Save
-- [ ] Unauthenticated access to MCQ pages redirects to `/login`
+- [x] All `src/components/mcq-*.test.tsx` — all tests pass
+- [x] **Full suite**: `npm test` passes with zero failures (125 tests)
+- [x] `/mcqs` shows table of questions with name, question, and actions menu
+- [x] Create button opens `/mcqs/new`; Save creates question and returns to list
+- [x] Edit action opens `/mcqs/[id]/edit`; Save updates and returns to list
+- [x] Cancel on form returns to `/mcqs` without saving
+- [x] Preview action opens `/mcqs/[id]/preview`; submit records attempt
+- [x] Delete action confirms then removes question from list
+- [x] Form defaults to 2 choices; supports add up to 6 and remove down to 2
+- [x] Exactly one correct answer required before Save
+- [x] Unauthenticated access to MCQ pages redirects to `/login`
 
 ### Manual Verification
 
@@ -1116,7 +1116,7 @@ When working with this PRD:
 
 **Last Updated:** September 10, 2026  
 **Current Phase:** Phase 4 — UI (List, Form, Preview)  
-**Status:** PLANNED  
-**Next Steps:** Write component tests for `mcq-list`, `mcq-form`, `mcq-preview` (RED)
+**Status:** COMPLETED (pending manual E2E verification)  
+**Next Steps:** Manual smoke test via `npm run preview`; commit/push at product owner direction
 
-**Baseline:** 111/111 tests passing. Phase 3 adds 15 API route tests under `/api/mcqs`.
+**Baseline:** 125/125 tests passing. Phase 4 adds 16 UI component tests; `McqsStub` replaced with full MCQ management UI.

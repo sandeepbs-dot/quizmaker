@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
-import { McqsStub } from "@/components/mcqs-stub";
+import { McqList } from "@/components/mcq-list";
 import { toPublicUser } from "@/lib/auth-utils";
 import {
 	getAuthenticatedUserIdFromCookies,
 	getLoginRedirectPath,
 } from "@/lib/auth-guard";
 import { getDb } from "@/lib/db";
+import { listMcqs } from "@/lib/mcq-service";
 import { getUserById } from "@/lib/user-service";
 
 export default async function McqsPage() {
@@ -22,5 +23,7 @@ export default async function McqsPage() {
 		redirect(getLoginRedirectPath());
 	}
 
-	return <McqsStub user={toPublicUser(user)} />;
+	const mcqs = await listMcqs(db);
+
+	return <McqList user={toPublicUser(user)} mcqs={mcqs} />;
 }
